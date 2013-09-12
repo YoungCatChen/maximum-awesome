@@ -23,6 +23,7 @@ set incsearch                                                " search as you typ
 set laststatus=2                                             " always show statusline
 set list                                                     " show trailing whitespace
 set listchars=tab:▸\ ,trail:▫
+set nocursorline                                             " don't highlight current line
 set number                                                   " show line numbers
 set ruler                                                    " show where you are
 set scrolloff=3                                              " show context above/below cursorline
@@ -59,6 +60,7 @@ nmap <leader><space> :call whitespace#strip_trailing()<CR>
 nmap <leader>g :GitGutterToggle<CR>
 nmap <leader>c <Plug>Kwbd
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+inoremap jj <ESC>
 
 " plugin settings
 let g:ctrlp_match_window = 'order:ttb,max:20'
@@ -98,6 +100,15 @@ else
   " prevent aged terminal from misunderstanding them
   #let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   #let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+" gui settings
+if (&t_Co == 256 || has('gui_running'))
+  if ($TERM_PROGRAM == 'iTerm.app')
+    colorscheme solarized
+  else
+    colorscheme desert
+  endif
 endif
 
 " Go crazy!
