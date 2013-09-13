@@ -1,3 +1,5 @@
+" @charset utf8
+
 " set up pathogen, https://github.com/tpope/vim-pathogen
 filetype on " without this vim emits a zero exit status, later, because of :ft off
 filetype off
@@ -10,30 +12,38 @@ set nocompatible
 " enable syntax highlighting
 syntax enable
 
+set ambiwidth=double
 set autoindent
-set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
-set backspace=2                                              " Fix broken backspace in some setups
-set backupcopy=yes                                           " see :help crontab
-set clipboard=unnamed                                        " yank and paste with the system clipboard
-set directory-=.                                             " don't store swapfiles in the current directory
-set encoding=utf-8
-set expandtab                                                " expand tabs to spaces
-set ignorecase                                               " case-insensitive search
-set incsearch                                                " search as you type
-set laststatus=2                                             " always show statusline
-set list                                                     " show trailing whitespace
+set autoread                " reload files when changed on disk, i.e. via `git checkout`
+set backspace=2             " Fix broken backspace in some setups
+set backupcopy=yes          " see :help crontab
+set clipboard=unnamed       " yank and paste with the system clipboard
+set directory-=.            " don't store swapfiles in the current directory
+set expandtab               " expand tabs to spaces
+set exrc
+set foldenable
+set history=400
+set ignorecase              " case-insensitive search
+set incsearch               " search as you type
+set laststatus=2            " always show statusline
+set list                    " show trailing whitespace
 set listchars=tab:▸\ ,trail:▫
-set nocursorline                                             " don't highlight current line
-set number                                                   " show line numbers
-set ruler                                                    " show where you are
-set scrolloff=3                                              " show context above/below cursorline
-set shiftwidth=2                                             " normal mode indentation commands use 2 spaces
+set modeline
+set modelines=5
+set nocursorline            " don't highlight current line
+set number                  " show line numbers
+set ruler                   " show where you are
+set scrolloff=3             " show context above/below cursorline
+set shiftwidth=2            " normal mode indentation commands use 2 spaces
 set showcmd
-set smartcase                                                " case-sensitive search if any caps
-set softtabstop=2                                            " insert mode tab and backspace use 2 spaces
-set tabstop=8                                                " actual tabs occupy 8 characters
+set showmatch
+set smartcase               " case-sensitive search if any caps
+set softtabstop=2           " insert mode tab and backspace use 2 spaces
+set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
+set tabstop=8               " actual tabs occupy 8 characters
+set whichwrap+=b,s,<,>,[,]  " Wrap arrow keys between lines
 set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
-set wildmenu                                                 " show a navigable menu for tab completion
+set wildmenu                " show a navigable menu for tab completion
 set wildmode=longest,list,full
 
 " Enable basic mouse behavior such as resizing buffers.
@@ -102,7 +112,7 @@ else
   "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" gui settings
+" GUI settings
 if (&t_Co == 256 || has('gui_running'))
   if ($TERM_PROGRAM == 'iTerm.app')
     colorscheme solarized
@@ -111,6 +121,24 @@ if (&t_Co == 256 || has('gui_running'))
   endif
 endif
 
+" FileEncodings
+function! s:setfencs(str)
+  if getfsize(a:str) < 10485760
+    set fileencodings=ucs-bom,utf-8,gb18030
+    filetype on
+  else
+    set fileencodings=
+    filetype off
+  endif
+endfunction
+
+au BufReadPre * call s:setfencs(@%)
+command! -nargs=0 -bar Edutf8 ed ++enc=utf8
+
+" Jump to the last known position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+
 " Go crazy!
 if filereadable(expand("~/.vimrc.local"))
   " In your .vimrc.local, you might like:
@@ -118,7 +146,6 @@ if filereadable(expand("~/.vimrc.local"))
   " set autowrite
   " set nocursorline
   " set nowritebackup
-  " set whichwrap+=<,>,h,l,[,] " Wrap arrow keys between lines
   "
   " autocmd! bufwritepost .vimrc source ~/.vimrc
   " noremap! jj <ESC>
