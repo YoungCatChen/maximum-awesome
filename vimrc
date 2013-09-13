@@ -23,6 +23,7 @@ set expandtab               " expand tabs to spaces
 set exrc
 set foldenable
 set history=400
+set hlsearch
 set ignorecase              " case-insensitive search
 set incsearch               " search as you type
 set laststatus=2            " always show statusline
@@ -113,13 +114,22 @@ else
 endif
 
 " GUI settings
-if (&t_Co == 256 || has('gui_running'))
-  if ($TERM_PROGRAM == 'iTerm.app')
-    colorscheme solarized
+try
+  if (&t_Co == 256 || has('gui_running'))
+    if ($TERM_PROGRAM == 'iTerm.app')
+      colorscheme solarized
+    else
+      colorscheme desert
+    endif
   else
     colorscheme desert
   endif
-endif
+catch
+  try
+    syntax on
+  catch
+  endtry
+endtry
 
 " FileEncodings
 function! s:setfencs(str)
