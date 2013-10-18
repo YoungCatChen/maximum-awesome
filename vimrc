@@ -20,6 +20,7 @@ endif
 filetype plugin indent on
 
 set ambiwidth=double
+set autochdir
 set autoindent
 set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
 set backspace=2                                              " Fix broken backspace in some setups
@@ -79,7 +80,14 @@ nmap <leader><space> :call whitespace#strip_trailing()<CR>
 nmap <leader>g :GitGutterToggle<CR>
 nmap <leader>c <Plug>Kwbd
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
 inoremap jj <ESC>
+vnoremap <C-S-x> "+x
+vnoremap <C-S-c> "+y
+map      <C-S-v> "+gP
+cmap     <C-S-v> <C-r>+
+exe 'inoremap <script> <C-S-v> <C-g>u' . paste#paste_cmd['i']
+exe 'vnoremap <script> <C-S-v> '       . paste#paste_cmd['i']
 
 " plugin settings
 let g:ctrlp_match_window = 'order:ttb,max:20'
