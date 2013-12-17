@@ -82,10 +82,11 @@ nmap <leader>c <Plug>Kwbd
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 inoremap jj <ESC>
-vnoremap <C-S-x> "+x
-vnoremap <C-S-c> "+y
-map      <C-S-v> "+gP
-cmap     <C-S-v> <C-r>+
+map      <C-Tab>    :tabNext<CR>
+vnoremap <C-x><C-x> "+x
+vnoremap <C-c><C-c> "+y
+map      <C-v><c-v> "+gP
+cmap     <C-v><c-v> <C-r>+
 exe 'inoremap <script> <C-S-v> <C-g>u' . paste#paste_cmd['i']
 exe 'vnoremap <script> <C-S-v> '       . paste#paste_cmd['i']
 
