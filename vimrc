@@ -82,6 +82,10 @@ nmap <leader>c <Plug>Kwbd
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 inoremap jj <ESC>
+nmap     <Esc>[H <Home>
+imap     <Esc>[H <Home>
+nmap     <Esc>[F <End>
+imap     <Esc>[F <End>
 map      <C-Tab>    :tabNext<CR>
 vnoremap <C-x><C-x> "+x
 vnoremap <C-c><C-c> "+y
