@@ -23,6 +23,7 @@ set ambiwidth=double
 set autochdir
 set autoindent
 set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
+set background=dark
 set backspace=2                                              " Fix broken backspace in some setups
 set backupcopy=yes                                           " see :help crontab
 set clipboard=unnamed                                        " yank and paste with the system clipboard
