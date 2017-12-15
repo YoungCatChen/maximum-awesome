@@ -5,24 +5,27 @@ set nocompatible
 syntax enable
 
 " configure Vundle
-filetype on " without this vim emits a zero exit status, later, because of :ft off
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if !empty(glob("~/.vim/bundle/Vundle.vim"))
+  filetype on " without this vim emits a zero exit status, later, because of :ft off
+  filetype off
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
 
-" install Vundle bundles
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-  source ~/.vimrc.bundles.local
+  " install Vundle bundles
+  if filereadable(expand("~/.vimrc.bundles"))
+    source ~/.vimrc.bundles
+    source ~/.vimrc.bundles.local
+  endif
+
+  call vundle#end()
 endif
-
-call vundle#end()
 
 " ensure ftdetect et al work by including this after the Vundle stuff
 filetype plugin indent on
 
 set autoindent
 set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
+set background=dark
 set backspace=2                                              " Fix broken backspace in some setups
 set backupcopy=yes                                           " see :help crontab
 set clipboard=unnamed                                        " yank and paste with the system clipboard
@@ -47,7 +50,7 @@ set wildmenu                                                 " show a navigable 
 set wildmode=longest,list,full
 
 " Enable basic mouse behavior such as resizing buffers.
-set mouse=a
+set mouse=nvc
 if exists('$TMUX')  " Support resizing in tmux
   set ttymouse=xterm2
 endif
@@ -69,6 +72,15 @@ nnoremap <leader>] :TagbarToggle<CR>
 nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
 nnoremap <leader>g :GitGutterToggle<CR>
 noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+map      <Esc>[H <Home>
+imap     <Esc>[H <Home>
+map      <Esc>[F <End>
+imap     <Esc>[F <End>
+map      <C-Tab>    :tabNext<CR>
+vnoremap <C-x><C-x> "+x
+vnoremap <C-c><C-c> "+y
+map      <C-v><c-v> "+gP
+cmap     <C-v><c-v> <C-r>+
 
 " in case you forgot to sudo
 cnoremap w!! %!sudo tee > /dev/null %
